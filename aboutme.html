@@ -41,6 +41,18 @@ body{
   color:var(--muted);text-decoration:none;padding:7px 14px;border-radius:7px;
   border:1px solid transparent;transition:color .2s,border-color .2s}
 .topnav .links a:hover,.topnav .links a.active{color:var(--blue);border-color:var(--line)}
+@media(max-width:820px){
+  .topnav{padding:14px 18px}
+  .topnav .links{flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-top:10px}
+  .topnav .links a{padding:8px 12px}
+  .content{padding:100px 18px 60px}
+}
+@media(max-width:640px){
+  .topnav{justify-content:center;text-align:center}
+  .topnav .links{justify-content:center}
+  .topnav .links a{flex:1 1 auto;white-space:nowrap;text-align:center}
+  .content{padding:100px 16px 60px}
+}
 .corner{position:fixed;z-index:6;width:28px;height:28px;border:1px solid var(--line)}
 .corner.tl{top:18px;left:18px;border-right:none;border-bottom:none}
 .corner.tr{top:18px;right:18px;border-left:none;border-bottom:none}
