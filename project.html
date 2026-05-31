@@ -78,6 +78,42 @@ body{
   text-transform:uppercase;color:var(--muted);line-height:1.4}
 @media(max-width:640px){.stats-strip{grid-template-columns:1fr 1fr}}
 
+@media(max-width:820px){
+  .topnav{padding:14px 18px}
+  .topnav .links{flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-top:10px}
+  .topnav .links a{padding:8px 12px}
+  .page{padding:0 18px 72px}
+  .page-hero{padding-top:90px}
+  .section-heading{flex-wrap:wrap;gap:12px}
+}
+
+@media(max-width:640px){
+  .page{padding:0 16px 64px}
+  .page-hero{padding-top:84px}
+  .page-title{font-size:2.25rem;margin-bottom:24px}
+  .page-desc{max-width:100%}
+  .stats-strip{grid-template-columns:1fr}
+  .stat-cell{padding:18px 16px}
+  .paper-inner{padding:20px 18px}
+  .paper-meta{gap:8px}
+  .paper-footer{flex-direction:column;align-items:flex-start;}
+  .paper-actions{width:100%;justify-content:flex-start;}
+  .btn{width:100%;justify-content:center;}
+  .paper-title{font-size:1.2rem}
+  .paper-abstract{font-size:.95rem;margin-bottom:18px}
+  .conf-chip{flex-direction:column;align-items:flex-start;gap:10px}
+}
+
+@media(max-width:480px){
+  .topnav{justify-content:center;text-align:center}
+  .topnav .links{justify-content:center}
+  .page-hero{padding-top:76px}
+  .page-title{font-size:1.9rem}
+  .paper-inner{padding:18px 16px}
+  .paper-footer{gap:16px}
+  .btn{padding:12px 14px;font-size:11px}
+}
+
 /* ── SECTION HEADING ── */
 .section-heading{margin:72px 0 32px;display:flex;align-items:center;gap:16px}
 .section-heading .sh-num{font-family:'JetBrains Mono',monospace;font-size:10px;
