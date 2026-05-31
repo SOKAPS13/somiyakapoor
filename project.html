@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research — Somiya Kapoor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#03060e;--blue:#3aa6ff;--blue-bright:#8fd6ff;--glow:#2e9bff;
+  --fg:#dce9f7;--muted:#5e7ea4;--line:rgba(80,150,225,0.18);
+  --panel:rgba(8,20,40,0.70);--signal:#bfff42;--amber:#ffb13a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:radial-gradient(ellipse 70% 60% at 50% 30%,#07172e 0%,#040a16 55%,#02050c 100%);
+  color:var(--fg);font-family:'Bricolage Grotesque',sans-serif;overflow-x:hidden;
+}
+#plexus{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(ellipse 80% 70% at 50% 30%,transparent 40%,rgba(2,5,12,.65) 100%)}
+
+/* ── NAV ── */
+.topnav{position:fixed;top:0;left:0;right:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 30px;border-bottom:1px solid var(--line);
+  background:linear-gradient(rgba(3,6,14,.92),rgba(3,6,14,0));backdrop-filter:blur(6px)}
+.topnav .logo{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.2em;
+  color:var(--muted);display:flex;align-items:center;gap:10px;text-decoration:none}
+.topnav .logo .dot{width:7px;height:7px;border-radius:50%;background:var(--blue);
+  box-shadow:0 0 10px var(--blue);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
+.topnav .links{display:flex;gap:6px}
+.topnav .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;
+  color:var(--muted);text-decoration:none;padding:7px 14px;border-radius:7px;
+  border:1px solid transparent;transition:color .2s,border-color .2s}
+.topnav .links a:hover,.topnav .links a.active{color:var(--blue);border-color:var(--line)}
+.corner{position:fixed;z-index:6;width:28px;height:28px;border:1px solid var(--line)}
+.corner.tl{top:18px;left:18px;border-right:none;border-bottom:none}
+.corner.tr{top:18px;right:18px;border-left:none;border-bottom:none}
+.corner.bl{bottom:18px;left:18px;border-right:none;border-top:none}
+.corner.br{bottom:18px;right:18px;border-left:none;border-top:none}
+
+/* ── LAYOUT ── */
+.page{position:relative;z-index:5;max-width:1020px;margin:0 auto;padding:0 28px 80px}
+
+/* ── HERO ── */
+.page-hero{padding:110px 0 60px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;
+  color:var(--blue);margin-bottom:14px;display:flex;align-items:center;gap:10px;
+  opacity:0;animation:rise .7s .1s forwards}
+.eyebrow::before{content:"";width:24px;height:1px;background:var(--blue);opacity:.6}
+.page-title{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:700;letter-spacing:-.025em;line-height:1;
+  margin-bottom:36px;opacity:0;animation:rise .7s .2s forwards}
+.page-title span{font-style:normal;color:var(--blue-bright)}
+.page-desc{font-size:1rem;color:var(--muted);max-width:55ch;line-height:1.7;
+  opacity:0;animation:rise .8s .35s forwards}
+.page-sub{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;
+  color:var(--muted);margin-bottom:28px;opacity:0;animation:rise .7s .28s forwards}
+
+/* ── STATS STRIP ── */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--line);margin:40px 0 0;
+  opacity:0;animation:rise .8s .45s forwards}
+.stat-cell{background:radial-gradient(ellipse at 50% 0%,rgba(58,166,255,.06),rgba(3,6,14,0) 70%),
+  rgba(3,6,14,.85);padding:22px 20px;text-align:center}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;
+  line-height:1;margin-bottom:5px}
+.stat-val.accent-green{color:var(--signal);text-shadow:0 0 20px rgba(191,255,66,.4)}
+.stat-val.accent-blue{color:var(--blue-bright);text-shadow:0 0 20px rgba(143,214,255,.3)}
+.stat-val.accent-amber{color:var(--amber);text-shadow:0 0 20px rgba(255,177,58,.3)}
+.stat-key{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);line-height:1.4}
+@media(max-width:640px){.stats-strip{grid-template-columns:1fr 1fr}}
+
+/* ── SECTION HEADING ── */
+.section-heading{margin:72px 0 32px;display:flex;align-items:center;gap:16px}
+.section-heading .sh-num{font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:.2em;color:var(--blue);flex-shrink:0}
+.section-heading h2{font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
+.section-heading::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* ── PAPER CARDS ── */
+.papers{display:flex;flex-direction:column;gap:28px}
+.paper-card{position:relative;background:var(--panel);border:1px solid var(--line);
+  border-radius:16px;overflow:hidden;
+  transition:border-color .4s,box-shadow .4s,transform .4s}
+.paper-card:hover{border-color:rgba(58,166,255,.45);
+  box-shadow:0 20px 60px -20px rgba(58,166,255,.2);transform:translateY(-3px)}
+.paper-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--blue),transparent);opacity:0;transition:opacity .4s}
+.paper-card:hover::before{opacity:1}
+.paper-inner{padding:32px 34px}
+@media(max-width:600px){.paper-inner{padding:22px 20px}}
+
+.paper-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.meta-year{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;
+  color:var(--amber);background:rgba(255,177,58,.08);border:1px solid rgba(255,177,58,.2);
+  padding:4px 10px;border-radius:100px}
+.meta-venue{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;
+  color:var(--blue);background:rgba(58,166,255,.08);border:1px solid rgba(58,166,255,.2);
+  padding:4px 10px;border-radius:100px}
+.meta-badge{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
+  color:var(--signal);background:rgba(191,255,66,.08);border:1px solid rgba(191,255,66,.2);
+  padding:4px 10px;border-radius:100px;display:inline-flex;align-items:center;gap:6px}
+.meta-badge::before{content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--signal);box-shadow:0 0 6px var(--signal)}
+
+.paper-title{font-family:'Bricolage Grotesque',sans-serif;
+  font-size:clamp(1.15rem,2.2vw,1.6rem);font-weight:700;font-style:normal;
+  line-height:1.25;color:var(--fg);margin-bottom:14px;letter-spacing:-.01em}
+.paper-abstract{font-size:.94rem;line-height:1.75;color:rgba(220,233,247,.55);
+  margin-bottom:20px;max-width:76ch}
+.paper-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.ptag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;
+  color:rgba(143,214,255,.6);background:rgba(58,166,255,.06);
+  border:1px solid rgba(58,166,255,.15);padding:4px 11px;border-radius:6px}
+
+.paper-footer{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:14px;padding-top:20px;border-top:1px solid var(--line)}
+.authors-line{font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  letter-spacing:.05em;color:var(--muted);line-height:1.6}
+.authors-line .me{color:var(--blue-bright)}
+.paper-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.btn{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.06em;
+  text-decoration:none;padding:11px 20px;border-radius:8px;
+  display:inline-flex;align-items:center;gap:8px;white-space:nowrap;
+  transition:transform .2s,box-shadow .2s,border-color .2s,color .2s,background .2s}
+.btn-pdf{background:rgba(58,166,255,.1);border:1px solid rgba(58,166,255,.3);color:var(--blue-bright)}
+.btn-pdf:hover{background:rgba(58,166,255,.2);border-color:var(--blue);
+  transform:translateY(-2px);box-shadow:0 8px 24px -8px rgba(58,166,255,.5)}
+.btn-detail{background:var(--blue);border:1px solid var(--blue);color:#021024;font-weight:700}
+.btn-detail:hover{transform:translateY(-2px);
+  box-shadow:0 10px 28px -8px rgba(58,166,255,.7);background:var(--blue-bright)}
+
+.conf-chip{display:inline-flex;align-items:flex-start;gap:10px;
+  padding:12px 16px;background:rgba(58,166,255,.04);
+  border:1px solid rgba(58,166,255,.12);border-radius:10px;margin-bottom:22px}
+.conf-chip-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+.conf-chip-text{font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  letter-spacing:.04em;color:var(--muted);line-height:1.6}
+.conf-chip-text strong{color:var(--blue-bright)}
+
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<canvas id="plexus"></canvas>
+<div class="grain"></div>
+<div class="vignette"></div>
+<span class="corner tl"></span><span class="corner tr"></span>
+<span class="corner bl"></span><span class="corner br"></span>
+
+<nav class="topnav">
+  <a class="logo" href="landing-page.html"><span class="dot"></span>QoE RESEARCH</a>
+  <div class="links">
+    <a href="landing-page.html">HOME</a>
+    <a href="aboutme.html">ABOUT ME</a>
+    <a href="project.html" class="active">PROJECT</a>
+    <a href="contact.html">CONTACT</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO
+  <div class="page-hero">
+    <div class="eyebrow">RESEARCH OUTPUT</div>
+    <h1 class="page-title">Research<br><span>Papers</span></h1>
+    <p class="page-desc">Investigating how Quality of Experience can be predicted from encrypted network traffic — without decrypting a single packet. Published at IFIP Networking 2025 and 2026.</p>
+    <div class="stats-strip">
+      <div class="stat-cell">
+        <div class="stat-val accent-green">2</div>
+        <div class="stat-key">Papers Published</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val accent-blue">4,550h</div>
+        <div class="stat-key">Encrypted Traffic Collected</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val accent-green">100%</div>
+        <div class="stat-key">Jump Detection Accuracy</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-val accent-amber">+374%</div>
+        <div class="stat-key">PB-QoE vs Baseline</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO (contact-style header) -->
+  <div class="page-hero">
+    <h1 class="page-title">Research</h1>
+  </div>
+
+  <!-- PUBLICATIONS -->
+  <div class="section-heading reveal">
+    <!-- <span class="sh-num">01</span> -->
+    <h2>Publications</h2>
+  </div>
+  <div class="papers">
+
+    <!-- PAPER 1 — IFIP 2025 -->
+    <div class="paper-card reveal">
+      <div class="paper-inner">
+        <div class="paper-meta">
+          <span class="meta-year">2025</span>
+          <span class="meta-venue">IFIP Networking · Limassol, Cyprus </span>
+        </div>
+        <h2 class="paper-title">Predicting Video QoE from Encrypted Traffic: Leveraging Video Fingerprinting and Providing System-Level Insights</h2>
+        <p class="paper-abstract">End-to-end encryption blocks network operators from accessing video quality metrics, forcing reliance on indirect traffic data for QoE estimation. This work adapts state-of-the-art video fingerprinting techniques to predict QoE from encrypted streams, achieving high accuracy across diverse and fluctuating network conditions. A systematic analysis confirms the approach remains robust with limited training data, making it practical for real-world deployment.</p>
+        <!-- <div class="paper-tags">
+          <span class="ptag">Video Fingerprinting</span>
+          <span class="ptag">vRF Model</span>
+          <span class="ptag">QoE Classification</span>
+          <span class="ptag">Encrypted Traffic</span>
+          <span class="ptag">Network Operators</span>
+          <span class="ptag">HTTPS Streams</span>
+        </div> -->
+        <div class="paper-footer">
+          
+          <div class="conf-chip">
+            <span class="conf-chip-icon">📄</span>
+            <span class="conf-chip-text">
+              <strong>Somiya Kapoor</strong>, David Hasselquist, Ethan Witwer, Mikael Asplund, Niklas Carlsson
+              <br>
+              Linköping University &amp; Sectra Communications
+            </span>
+          </div>
+          <div class="paper-actions">
+            <a class="btn btn-pdf" href="https://networking.ifip.org/2025/images/Net25_papers/1571125572.pdf" target="_blank" rel="noopener noreferrer">↓ PDF</a>
+            <a class="btn btn-detail" href="https://github.com/SOKAPS13/QoE-live" target="_blank" rel="noopener noreferrer">GitHub Link →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAPER 2 — IFIP 2026 -->
+    <div class="paper-card reveal" style="transition-delay:.1s">
+      <div class="paper-inner">
+        <div class="paper-meta">
+          <span class="meta-year">2026</span>
+          <span class="meta-venue">IFIP Networking 2026 · Lugano, Switzerland</span>
+          
+        </div>
+        <h2 class="paper-title">QoE Prediction of Encrypted Video Traffic for Interactive and Impatient Streaming Users</h2>
+        <p class="paper-abstract">Existing QoE predictors fail when users jump during playback - each jump flushes the buffer and breaks the stationary traffic assumptions prior models rely on. This work introduces <strong style="color:var(--blue-bright)">PB-QoE</strong>, a jump-aware pipeline that detects interaction intensity from encrypted traffic with 100% accuracy, then corrects QoE estimates via an interaction-dependent penalty - outperforming baselines across all tested bandwidth and jump conditions.</p>
+        <!-- <div class="paper-tags">
+          <span class="ptag">QoE Prediction</span>
+          <span class="ptag">User Jumping Behavior</span>
+          <span class="ptag">PB-QoE Pipeline</span>
+          <span class="ptag">CNN Regression</span>
+          <span class="ptag">MPEG-DASH</span>
+          <span class="ptag">Traffic Fingerprinting</span>
+          <span class="ptag">Penalty Model</span>
+        </div> -->
+        <div class="conf-chip">
+          <span class="conf-chip-icon">📄</span>
+          <span class="conf-chip-text">
+            <strong>Somiya Kapoor</strong>, David Hasselquist, Ethan Witwer, Mikael Asplund, Niklas Carlsson 
+            <br>
+            Linköping University &amp; Sectra Communications 
+          </span>
+        </div>
+        <div class="paper-footer">
+          <div class="authors-line" style="visibility:hidden;font-size:0">spacer</div>
+          <div class="paper-actions">
+            <a class="btn btn-pdf" href="https://dl.ifip.org/db/conf/networking/networking2026/1571254372.pdf" target="_blank" rel="noopener noreferrer">↓ PDF</a>
+            <a class="btn btn-detail" href="project/QoE Prediction for Interactive Streaming.html" target="_blank" rel="noopener noreferrer">PB-QoE Website →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  const c=document.getElementById('plexus'),x=c.getContext('2d');
+  let W,H,nodes,LINK,N;
+  function resize(){
+    W=c.width=Math.floor(innerWidth*devicePixelRatio);
+    H=c.height=Math.floor(innerHeight*devicePixelRatio);
+    LINK=Math.min(W,H)*0.15;
+    N=Math.min(100,Math.round(W*H/(22000*devicePixelRatio)));
+    nodes=[];
+    for(let i=0;i<N;i++) nodes.push({
+      x:Math.random()*W,y:Math.random()*H,
+      vx:(Math.random()-.5)*.22*devicePixelRatio,
+      vy:(Math.random()-.5)*.22*devicePixelRatio,
+      r:(Math.random()*1.4+.7)*devicePixelRatio,
+      tw:Math.random()*Math.PI*2
+    });
+  }
+  resize();addEventListener('resize',resize);
+  function frame(){
+    x.clearRect(0,0,W,H);
+    for(let i=0;i<N;i++){const a=nodes[i];
+      for(let j=i+1;j<N;j++){const b=nodes[j];
+        const d=Math.hypot(a.x-b.x,a.y-b.y);
+        if(d<LINK){x.strokeStyle='rgba(70,165,255,'+(1-d/LINK)*.35+')';
+          x.lineWidth=.6*devicePixelRatio;
+          x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke();}}}
+    for(let i=0;i<N;i++){const n=nodes[i];
+      n.x+=n.vx;n.y+=n.vy;n.tw+=.04;
+      if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1;
+      x.beginPath();x.fillStyle='rgba(143,214,255,'+(0.5+Math.sin(n.tw)*.35)+')';
+      x.shadowBlur=7*devicePixelRatio;x.shadowColor='rgba(58,166,255,.9)';
+      x.arc(n.x,n.y,n.r,0,Math.PI*2);x.fill();x.shadowBlur=0;}
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
+</script>
+</body>
+</html>
